@@ -1,8 +1,16 @@
 import { Menu } from "lucide-react";
+import { motion, useScroll, useTransform } from "framer-motion";
 
 export default function Navbar() {
+  const { scrollY } = useScroll();
+  const opacity = useTransform(scrollY, [0, 80], [1, 0.85]);
+  const blur = useTransform(scrollY, [0, 80], [6, 12]);
+
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 backdrop-blur supports-[backdrop-filter]:bg-white/60 bg-white/80 border-b border-neutral-200/60">
+    <motion.header
+      style={{ opacity, backdropFilter: blur.to((b) => `blur(${b}px)`) }}
+      className="fixed top-0 left-0 right-0 z-50 supports-[backdrop-filter]:bg-white/60 bg-white/80 border-b border-neutral-200/60"
+    >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="h-16 flex items-center justify-between">
           <a href="#" className="inline-flex items-center gap-2">
@@ -20,6 +28,6 @@ export default function Navbar() {
           </button>
         </div>
       </div>
-    </header>
+    </motion.header>
   );
 }

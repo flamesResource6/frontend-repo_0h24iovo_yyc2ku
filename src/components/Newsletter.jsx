@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 
 export default function Newsletter() {
   const [email, setEmail] = useState("");
@@ -26,9 +27,32 @@ export default function Newsletter() {
   return (
     <section id="newsletter" className="py-16 sm:py-24 bg-white">
       <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-        <h2 className="text-3xl sm:text-4xl font-semibold tracking-tight text-neutral-900">Stay in the cozy loop</h2>
-        <p className="mt-3 text-neutral-600">Get updates on new textiles, colors, and seasonal drops.</p>
-        <form onSubmit={onSubmit} className="mt-8 flex gap-3 max-w-xl mx-auto">
+        <motion.h2
+          initial={{ opacity: 0, y: 16 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+          className="text-3xl sm:text-4xl font-semibold tracking-tight text-neutral-900"
+        >
+          Stay in the cozy loop
+        </motion.h2>
+        <motion.p
+          initial={{ opacity: 0, y: 8 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, delay: 0.1 }}
+          className="mt-3 text-neutral-600"
+        >
+          Get updates on new textiles, colors, and seasonal drops.
+        </motion.p>
+        <motion.form
+          onSubmit={onSubmit}
+          initial={{ opacity: 0, y: 10 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, delay: 0.15 }}
+          className="mt-8 flex gap-3 max-w-xl mx-auto"
+        >
           <input
             type="email"
             required
@@ -39,18 +63,34 @@ export default function Newsletter() {
           />
           <button
             type="submit"
-            className="rounded-lg bg-violet-600 text-white px-5 py-3 text-sm font-medium shadow-sm hover:bg-violet-700 transition-colors"
+            className="rounded-lg bg-violet-600 text-white px-5 py-3 text-sm font-medium shadow-sm hover:bg-violet-700 transition-colors disabled:opacity-60"
             disabled={status === "loading"}
           >
             {status === "loading" ? "Sending..." : "Subscribe"}
           </button>
-        </form>
-        {status === "success" && (
-          <p className="mt-3 text-sm text-green-700">Thanks for subscribing!</p>
-        )}
-        {status === "error" && (
-          <p className="mt-3 text-sm text-red-700">Something went wrong. Please try again.</p>
-        )}
+        </motion.form>
+        <AnimatePresence>
+          {status === "success" && (
+            <motion.p
+              initial={{ opacity: 0, y: 6 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: 6 }}
+              className="mt-3 text-sm text-green-700"
+            >
+              Thanks for subscribing!
+            </motion.p>
+          )}
+          {status === "error" && (
+            <motion.p
+              initial={{ opacity: 0, y: 6 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: 6 }}
+              className="mt-3 text-sm text-red-700"
+            >
+              Something went wrong. Please try again.
+            </motion.p>
+          )}
+        </AnimatePresence>
       </div>
     </section>
   );

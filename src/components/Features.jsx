@@ -1,3 +1,10 @@
+import { motion } from "framer-motion";
+
+const fade = {
+  hidden: { opacity: 0, y: 10 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.5 } },
+};
+
 export default function Features() {
   const items = [
     {
@@ -25,14 +32,19 @@ export default function Features() {
           <h2 className="text-3xl sm:text-4xl font-semibold tracking-tight text-neutral-900">Why choose us</h2>
           <p className="mt-3 text-neutral-600">A curated selection with character and authenticity.</p>
         </div>
-        <div className="mt-10 grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <motion.div
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, amount: 0.2 }}
+          className="mt-10 grid sm:grid-cols-2 lg:grid-cols-4 gap-6"
+        >
           {items.map((it) => (
-            <div key={it.title} className="rounded-2xl border border-neutral-200 p-6 bg-white">
+            <motion.div key={it.title} variants={fade} className="rounded-2xl border border-neutral-200 p-6 bg-white">
               <h3 className="font-medium text-neutral-900">{it.title}</h3>
               <p className="mt-2 text-sm text-neutral-600">{it.desc}</p>
-            </div>
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
       </div>
     </section>
   );
