@@ -1,14 +1,15 @@
 import { Menu } from "lucide-react";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { motion, useScroll, useTransform, useMotionTemplate } from "framer-motion";
 
 export default function Navbar() {
   const { scrollY } = useScroll();
   const opacity = useTransform(scrollY, [0, 80], [1, 0.85]);
   const blur = useTransform(scrollY, [0, 80], [6, 12]);
+  const backdrop = useMotionTemplate`blur(${blur}px)`;
 
   return (
     <motion.header
-      style={{ opacity, backdropFilter: blur.to((b) => `blur(${b}px)`) }}
+      style={{ opacity, backdropFilter: backdrop }}
       className="fixed top-0 left-0 right-0 z-50 supports-[backdrop-filter]:bg-white/60 bg-white/80 border-b border-neutral-200/60"
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
